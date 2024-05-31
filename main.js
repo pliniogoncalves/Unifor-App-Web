@@ -31,6 +31,8 @@ app.use((req, res, next) => {
     next();
 });
 
+app.use(express.static("uploads"));
+
 // Configuração do mecanismo de modelo para renderizar páginas da web com EJS
 app.set("view engine", "ejs");
 
