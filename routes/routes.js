@@ -5,4 +5,8 @@ router.get("/", (req, res) => {
     res.render("index", { title: "Home Page" })
 });
 
+router.get("/add", (req, res) => {
+    res.render("add_users", { title: "Adicionar Usuários" })
+});
+
 module.exports = router;
