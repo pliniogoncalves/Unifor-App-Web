@@ -13,6 +13,27 @@ const db = mongoose.connection;
 db.on('error', (error) => console.log(error));
 db.once('open', () => console.log("Conectado ao banco de dados!"));
 
+//middlewares
+app.use(express.urlencoded({ extended: false }));
+app.use(express.json());
+
+app.use(
+    session({
+        secret: "minha chave secreta",
+        saveUninitialized: true,
+        resave: false,
+    })
+);
+
+app.use((req, res, next) => {
+    res.locals.message = req.session.message;
+    delete req.session.message;
+    next();
+});
+
+//set template engine
+app.set('view engine', 'ejs');
+
 
 app.get("/", (req, res) => {
     res.send("Olá, mundo!");
