@@ -38,8 +38,17 @@ router.post("/add", upload, async (req, res) => {
     }  
 });
 
-router.get("/", (req, res) => {
-    res.render("index", { title: "Home Page" });
+// Rota para obter todos os usuários
+router.get("/", async (req, res) => {
+    try {
+        const users = await User.find().exec();
+        res.render("index", {
+            title: "Home Page",
+            users: users,
+        });
+    } catch (err) {
+        res.json({ message: err.message });
+    }
 });
 
 router.get("/add", (req, res) => {
