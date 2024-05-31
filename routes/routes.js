@@ -74,7 +74,6 @@ router.get("/edit/:id", async (req, res) => {
     }
 });
 
-// Rota para atualizar um usuario no banco de dados
 // Rota para atualizar um usuário no banco de dados
 router.post("/update/:id", upload, async (req, res) => {
     let id = req.params.id;
