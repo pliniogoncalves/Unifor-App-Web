@@ -11,26 +11,26 @@
             <% } %>
             <div class="table-responsive">
                 <% if (users != "") { %>
-                    <table class="table table-striped text-center">
+                    <table class="table table-striped text-center my-3">
                         <thead>
                             <tr class="table-dark">
-                                <th>ID</th>
-                                <th>Imagem</th>
-                                <th>Nome</th>
-                                <th>E-mail</th>
-                                <th>Telefone</th>
-                                <th>Ação</th>
+                                <th class="text-center">ID</th>
+                                <th class="text-center">Imagem</th>
+                                <th class="text-center">Nome</th>
+                                <th class="text-center">E-mail</th>
+                                <th class="text-center">Telefone</th>
+                                <th class="text-center">Ação</th>
                             </tr>
                         </thead>
                         <tbody>
                             <% users.forEach((row, index) => { %>
-                                <tr>
-                                    <td><%= index %></td>
-                                    <td><img src="<%= row.imagem %>" width="50" class="img-thumbnail"></td>
-                                    <td><%= row.nome %></td>
-                                    <td><%= row.email %></td>
-                                    <td><%= row.telefone  %></td>
-                                    <td>
+                                <tr class="align-middle">
+                                    <td class="text-center"><%= index %></td>
+                                    <td class="text-center"><img src="<%= row.imagem %>" width="50" class="img-thumbnail"></td>
+                                    <td class="text-center"><%= row.nome %></td>
+                                    <td class="text-center"><%= row.email %></td>
+                                    <td class="text-center"><%= row.telefone  %></td>
+                                    <td class="text-center">
                                      <a href="/edit/<%= row._id %>" class="text-success"><i class="fas fa-edit fa-lg mx-1"></i></a>
                                      <a href="/delete/<%= row._id %>" class="text-danger"><i class="fas fa-trash fa-lg mx-1"></i></a>
                                     </td> 
