@@ -108,4 +108,30 @@ router.post("/update/:id", upload, async (req, res) => {
     }
 });
 
+// Rota para deletar usuário do banco de dados
+router.get("/delete/:id", async (req, res) => {
+    let id = req.params.id;
+    
+    try {
+        const result = await User.findByIdAndDelete(id);
+        
+        if (result && result.image != "") {
+            try {
+                fs.unlinkSync("./uploads/" + result.imagem);
+            } catch (err) {
+                console.log(err);
+            }
+        }
+
+        req.session.message = {
+            type: "info",
+            message: "Usuário deletado com sucesso!"
+        };
+        res.redirect("/");
+        
+    } catch (err) {
+        res.json({ message: err.message });
+    }
+});
+
 module.exports = router;
