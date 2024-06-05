@@ -2,7 +2,6 @@
 require('dotenv').config();
 const express = require('express');
 const path = require("path");
-const bcrypt = require("bcrypt");
 const mongoose = require('mongoose');
 const session = require('express-session');
 
