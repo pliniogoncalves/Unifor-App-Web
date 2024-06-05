@@ -18,6 +18,21 @@ let upload = multer({
     storage: storage,
 }).single("imagem");
 
+// Rota para a página de login
+
+router.get("/", (req, res) => {
+    res.redirect("/login");
+});
+
+router.get("/login", (req, res) => {
+    res.render("login", { title: "Login" });
+});
+
+// Rota para a página de cadastro inicial
+router.get("/signup", (req, res) => {
+    res.render("signup", { title: "Signup" });
+});
+
 // Rota para adicionar um usuário ao banco de dados
 router.post("/add", upload, async (req, res) => {
     const user = new User({
@@ -40,7 +55,7 @@ router.post("/add", upload, async (req, res) => {
 });
 
 // Rota para obter todos os usuários
-router.get("/", async (req, res) => {
+router.get("/index", async (req, res) => {
     try {
         const users = await User.find().exec();
         res.render("index", {

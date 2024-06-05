@@ -1,6 +1,8 @@
 // Importações de bibliotecas e módulos necessários
 require('dotenv').config();
 const express = require('express');
+const path = require("path");
+const bcrypt = require("bcrypt");
 const mongoose = require('mongoose');
 const session = require('express-session');
 
@@ -32,6 +34,7 @@ app.use((req, res, next) => {
 });
 
 app.use(express.static("uploads"));
+app.use(express.static("public"));
 
 // Configuração do mecanismo de modelo para renderizar páginas da web com EJS
 app.set("view engine", "ejs");
