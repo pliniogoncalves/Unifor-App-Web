@@ -37,6 +37,7 @@ router.get("/signup", (req, res) => {
 router.post("/add", upload, async (req, res) => {
     const user = new User({
         nome: req.body.nome,
+        password: req.body.password,
         email: req.body.email,
         telefone: req.body.telefone,
         imagem: req.file.filename,
@@ -108,6 +109,7 @@ router.post("/update/:id", upload, async (req, res) => {
     try {
         await User.findByIdAndUpdate(id, {
             nome: req.body.nome,
+            password: req.body.password,
             email: req.body.email,
             telefone: req.body.telefone,
             imagem: new_image,
