@@ -51,3 +51,14 @@ Esta atividade prática tem como objetivo avaliar os conhecimentos conceituais e
      npm start
      ```
    - A aplicação estará disponível em `http://localhost:3000`.
+3. **Login/Senha Padrão:**
+   - Para realizar o login sem cadastrar um novo usuário, entre com as credenciais:
+   - Usuário:
+     ```bash
+     admin
+     ```
+   - Senha:
+     ```bash
+     admin
+     ```
+   - A aplicação estará disponível em `http://localhost:5000`.
