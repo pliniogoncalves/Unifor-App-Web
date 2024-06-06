@@ -29,6 +29,11 @@ router.get("/login", (req, res) => {
     res.render("login", { title: "Login" });
 });
 
+// Rota para fazer logout
+router.get("/logout", (req, res) => {
+    res.redirect('/login');
+});
+
 // Rota para a página de cadastro inicial
 router.get("/signup", (req, res) => {
     res.render("signup", { title: "Signup" });
@@ -43,34 +48,33 @@ router.post("/login", async (req, res) => {
                 type: "danger",
                 message: "Usuário não existe!",
             };
-            return res.redirect("/login"); // Redireciona para a página de login
+            return res.redirect("/login"); 
         }
 
         // Comparando o password
         const isPasswordMatch = await bcrypt.compare(req.body.password, user.password);
-        if (isPasswordMatch) {
-            // Redireciona para a página principal ou outra página após o login
-            res.redirect("/index");
+        if (isPasswordMatch) { 
+            res.redirect("/home");
         } else {
             req.session.message = {
                 type: "danger",
                 message: "Senha errada!",
             };
-            return res.redirect("/login"); // Redireciona para a página de login
+            return res.redirect("/login");
         }
     } catch (err) {
         req.session.message = {
             type: "danger",
             message: "Erro nos dados fornecidos!",
         };
-        res.redirect("/login"); // Redireciona para a página de login
+        res.redirect("/login");
     }
 });
 
 // Rota para adicionar um usuário ao banco de dados
 router.post("/signup", upload, async (req, res) => {
     try {
-        // Verifica se o usuário já existe no banco de dados pelo email
+        // Verifica se o usuário já existe no banco de dados pelo nome
         const existingUser = await User.findOne({ nome: req.body.nome });
         
         if (existingUser) {
@@ -78,8 +82,7 @@ router.post("/signup", upload, async (req, res) => {
                 type: "danger",
                 message: "Usuário já existente, entre com um nome diferente!",
             };
-            //res.send("Usuário já existente, entre com um nome diferente!");
-            return res.redirect("/");
+            return res.redirect("/signup");
         }
 
         // Criptografando o password
@@ -100,16 +103,16 @@ router.post("/signup", upload, async (req, res) => {
             type: "success",
             message: "Usuário adicionado com sucesso!",
         };
-        res.redirect("/");
+        res.redirect("/login");
     } catch (err) {
         res.json({ message: err.message, type: "danger" });
     }
 });
 
-// Rota para adicionar um usuário ao banco de dados
+// Rota para adicionar um usuário ao banco de dados (admin)
 router.post("/add", upload, async (req, res) => {
     try {
-        // Verifica se o usuário já existe no banco de dados pelo email
+        // Verifica se o usuário já existe no banco de dados pelo nome
         const existingUser = await User.findOne({ nome: req.body.nome });
         
         if (existingUser) {
@@ -117,8 +120,7 @@ router.post("/add", upload, async (req, res) => {
                 type: "danger",
                 message: "Usuário já existente, entre com um nome diferente!",
             };
-            //res.send("Usuário já existente, entre com um nome diferente!");
-            return res.redirect("/");
+            return res.redirect("/add");
         }
 
         // Criptografando o password
@@ -139,17 +141,17 @@ router.post("/add", upload, async (req, res) => {
             type: "success",
             message: "Usuário adicionado com sucesso!",
         };
-        res.redirect("/index");
+        res.redirect("/home");
     } catch (err) {
         res.json({ message: err.message, type: "danger" });
     }
 });
 
 // Rota para obter todos os usuários
-router.get("/index", async (req, res) => {
+router.get("/home", async (req, res) => {
     try {
         const users = await User.find().exec();
-        res.render("index", {
+        res.render("home", {
             title: "Home Page",
             users: users,
         });
@@ -168,7 +170,7 @@ router.get("/edit/:id", async (req, res) => {
     try {
         const user = await User.findById(id);
         if (user == null) {
-            res.redirect("/");
+            res.redirect("/home");
         } else {
             res.render("edit_users", {
                 title: "Editar Usuário",
@@ -176,7 +178,7 @@ router.get("/edit/:id", async (req, res) => {
             });
         }
     } catch (err) {
-        res.redirect("/index");
+        res.redirect("/home");
     }
 });
 
@@ -200,7 +202,6 @@ router.post("/update/:id", upload, async (req, res) => {
     const saltRounds = 10;
     const hashedPassword = await bcrypt.hash(req.body.password, saltRounds);
 
-
     try {
         await User.findByIdAndUpdate(id, {
             nome: req.body.nome,
@@ -213,7 +214,7 @@ router.post("/update/:id", upload, async (req, res) => {
             type: "success",
             message: "Usuário atualizado com sucesso!",
         };
-        res.redirect("/index");
+        res.redirect("/home");
     } catch (err) {
         res.json({ message: err.message, type: "danger" });
     }
@@ -238,7 +239,7 @@ router.get("/delete/:id", async (req, res) => {
             type: "info",
             message: "Usuário deletado com sucesso!"
         };
-        res.redirect("/index");
+        res.redirect("/home");
         
     } catch (err) {
         res.json({ message: err.message });
