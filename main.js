@@ -9,9 +9,9 @@ const app = express();
 const PORT = process.env.PORT || 4000;
 
 // Conexão com o banco de dados
-mongoose.connect(process.env.DB_URI, { useNewUrlParser: true, useUnifiedTopology: true });
+mongoose.connect(process.env.DB_URI);
 const db = mongoose.connection;
-db.on('error', (error) => console.log(error));
+db.on('error', (error) => console.error(error));
 db.once('open', () => console.log("Conectado ao banco de dados!"));
 
 // Middlewares para processar solicitações HTTP antes de serem manipuladas pelas rotas
