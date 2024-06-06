@@ -91,9 +91,11 @@ router.get("/logout", (req, res) => {
     req.session.destroy(err => {
         if (err) {
             console.log(err);
-        }
+            res.redirect('/home');
+        } else {
         // Redirecionar para a página de login após o logout
         res.redirect('/login');
+        }
     });
 });
 
